@@ -9,9 +9,9 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install iverilog
+      - name: Install iverilog & ghdl
         shell: bash
-        run: sudo apt-get update && sudo apt-get install -y iverilog
+        run: sudo apt-get update && sudo apt-get install -y iverilog ghdl-llvm
 
       # Set Python up and install cocotb
       - name: Setup python
@@ -22,6 +22,21 @@ jobs:
       - name: Install Python packages
         shell: bash
         run: pip install -r test/requirements.txt
+
+      - name: Checkout tt-support-tools repo
+        uses: actions/checkout@v4
+        with:
+          repository: TinyTapeout/tt-support-tools
+          path: tt
+          ref: tt10
+
+      - name: Install tt-support-tools dependencies
+        shell: bash
+        run: pip install -r tt/requirements.txt
+
+      - name: Run tt_tool.py to transpile .vhdl to .v
+        shell: bash
+        run: ./tt/tt_tool.py
 
       - name: Run tests
         run: |

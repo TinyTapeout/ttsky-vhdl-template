@@ -3,6 +3,7 @@
 *.vcd
 runs
 tt_submission
+src/generated/
 src/user_config.json
 src/config_merged.json
 test/sim_build
